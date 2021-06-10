@@ -2630,6 +2630,15 @@ static void set_channel_answer_time(struct ast_channel *chan)
 	}
 }
 
+static void set_channel_answer_time_old(struct ast_channel *chan)
+{
+	if (ast_tvzero(ast_channel_answertime(chan))) {
+		struct timeval answertime;
+
+		answertime = ast_tvnow();
+		ast_channel_answertime_old_set(chan, &answertime);
+	}
+}
 
 int ast_raw_answer_with_stream_topology(struct ast_channel *chan, struct ast_stream_topology *topology)
 {
@@ -2837,9 +2846,24 @@ int64_t ast_channel_get_up_time_ms(struct ast_channel *chan)
 	return ast_tvdiff_ms(ast_tvnow(), ast_channel_answertime(chan));
 }
 
+int64_t ast_channel_get_up_time_ms_old(struct ast_channel *chan)
+{
+	ast_assert(NULL != chan);
+
+	if (ast_tvzero(ast_channel_answertime_old(chan))) {
+		return 0;
+	}
+	return ast_tvdiff_ms(ast_tvnow(), ast_channel_answertime_old(chan));
+}
+
 int ast_channel_get_up_time(struct ast_channel *chan)
 {
 	return (ast_channel_get_up_time_ms(chan) / 1000);
+}
+
+int ast_channel_get_up_time_old(struct ast_channel *chan)
+{
+	return (ast_channel_get_up_time_ms_old(chan) / 1000);
 }
 
 /*!
@@ -6107,6 +6131,8 @@ struct ast_channel *__ast_request_and_dial(const char *type, struct ast_format_c
 					break;
 
 				case AST_CONTROL_ANSWER:
+					// ???? Setting an answer time the old way
+					set_channel_answer_time_old(chan);
 					*outstate = f->subclass.integer;
 					timeout = 0;		/* trick to force exit from the while() */
 					break;

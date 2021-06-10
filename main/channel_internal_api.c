@@ -155,6 +155,7 @@ struct ast_channel {
 	struct ast_namedgroups *named_pickupgroups;	/*!< Named pickup group - which call groups can be picked up? */
 	struct timeval creationtime;			/*!< The time of channel creation */
 	struct timeval answertime;				/*!< The time the channel was answered */
+	struct timeval answertime_old;				/*!< The time the channel was answered old way*/
 	struct ast_readq_list readq;
 	struct ast_jb jb;				/*!< The jitterbuffer state */
 	struct timeval dtmf_tv;				/*!< The time that an in process digit began, or the last digit ended */
@@ -991,6 +992,16 @@ struct timeval ast_channel_answertime(struct ast_channel *chan)
 void ast_channel_answertime_set(struct ast_channel *chan, struct timeval *value)
 {
 	chan->answertime = *value;
+}
+
+struct timeval ast_channel_answertime_old(struct ast_channel *chan)
+{
+	return chan->answertime_old;
+}
+
+void ast_channel_answertime_old_set(struct ast_channel *chan, struct timeval *value)
+{
+	chan->answertime_old = *value;
 }
 
 /* Evil softhangup accessors */

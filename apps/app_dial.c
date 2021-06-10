@@ -568,6 +568,12 @@
 				<variable name="DIALEDTIME_MS">
 					<para>This is the milliseconds version of the DIALEDTIME variable.</para>
 				</variable>
+				<variable name="ANSWEREDTIME_OLD">
+					<para>This is the amount of time for actual call based on old measurement approach.</para>
+				</variable>
+				<variable name="ANSWEREDTIME_OLD_MS">
+					<para>This is the milliseconds version of the ANSWEREDTIME_OLD variable.</para>
+				</variable>
 				<variable name="ANSWEREDTIME">
 					<para>This is the amount of time for actual call.</para>
 				</variable>
@@ -2156,6 +2162,7 @@ static void end_bridge_callback(void *data)
 	ast_channel_lock(chan);
 	ast_channel_stage_snapshot(chan);
 	set_duration_var(chan, "ANSWEREDTIME", ast_channel_get_up_time_ms(chan));
+	set_duration_var(chan, "ANSWEREDTIME_OLD", ast_channel_get_up_time_ms_old(chan));
 	set_duration_var(chan, "DIALEDTIME", ast_channel_get_duration_ms(chan));
 	ast_channel_stage_snapshot_done(chan);
 	ast_channel_unlock(chan);
@@ -2298,6 +2305,8 @@ static int dial_exec_full(struct ast_channel *chan, const char *data, struct ast
 	pbx_builtin_setvar_helper(chan, "DIALSTATUS", "");
 	pbx_builtin_setvar_helper(chan, "DIALEDPEERNUMBER", "");
 	pbx_builtin_setvar_helper(chan, "DIALEDPEERNAME", "");
+	pbx_builtin_setvar_helper(chan, "ANSWEREDTIME_OLD", "");
+	pbx_builtin_setvar_helper(chan, "ANSWEREDTIME_OLD_MS", "");
 	pbx_builtin_setvar_helper(chan, "ANSWEREDTIME", "");
 	pbx_builtin_setvar_helper(chan, "ANSWEREDTIME_MS", "");
 	pbx_builtin_setvar_helper(chan, "DIALEDTIME", "");

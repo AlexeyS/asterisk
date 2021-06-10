@@ -2507,6 +2507,7 @@ int ast_channel_get_duration(struct ast_channel *chan);
  * \retval The number of milliseconds the channel has been up
  */
 int64_t ast_channel_get_up_time_ms(struct ast_channel *chan);
+int64_t ast_channel_get_up_time_ms_old(struct ast_channel *chan);
 
 /*!
  * \since 12
@@ -2518,6 +2519,7 @@ int64_t ast_channel_get_up_time_ms(struct ast_channel *chan);
  * \retval The number of seconds the channel has been up
  */
 int ast_channel_get_up_time(struct ast_channel *chan);
+int ast_channel_get_up_time_old(struct ast_channel *chan);
 
 /*!
  * \brief Set caller ID number, name and ANI and generate AMI event.
@@ -4426,7 +4428,9 @@ void ast_channel_varshead_set(struct ast_channel *chan, struct varshead *value);
 struct timeval ast_channel_creationtime(struct ast_channel *chan);
 void ast_channel_creationtime_set(struct ast_channel *chan, struct timeval *value);
 struct timeval ast_channel_answertime(struct ast_channel *chan);
+struct timeval ast_channel_answertime_old(struct ast_channel *chan);
 void ast_channel_answertime_set(struct ast_channel *chan, struct timeval *value);
+void ast_channel_answertime_old_set(struct ast_channel *chan, struct timeval *value);
 
 /* List getters */
 struct ast_hangup_handler_list *ast_channel_hangup_handlers(struct ast_channel *chan);
