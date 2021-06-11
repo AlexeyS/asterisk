@@ -1426,6 +1426,11 @@ static struct ast_channel *wait_for_answer(struct ast_channel *in,
 							}
 						}
 						peer = c;
+						{
+							struct timeval answertime;
+							answertime = ast_tvnow();
+							ast_channel_answertime_old_set(peer, &answertime);
+						}
 						/* Answer can optionally include a topology */
 						if (f->subclass.topology) {
 							/*
