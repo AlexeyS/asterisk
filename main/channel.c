@@ -2632,7 +2632,7 @@ static void set_channel_answer_time(struct ast_channel *chan)
 
 static void set_channel_answer_time_old(struct ast_channel *chan)
 {
-	if (ast_tvzero(ast_channel_answertime(chan))) {
+	if (ast_tvzero(ast_channel_answertime_old(chan))) {
 		struct timeval answertime;
 
 		answertime = ast_tvnow();
