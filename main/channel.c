@@ -2674,6 +2674,8 @@ int ast_raw_answer_with_stream_topology(struct ast_channel *chan, struct ast_str
 		} else if (ast_channel_tech(chan)->answer) {
 			res = ast_channel_tech(chan)->answer(chan);
 		}
+		// ????
+		set_channel_answer_time_old(chan);
 		ast_setstate(chan, AST_STATE_UP);
 		ast_channel_unlock(chan);
 		break;
