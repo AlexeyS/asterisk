@@ -2632,12 +2632,9 @@ static void set_channel_answer_time(struct ast_channel *chan)
 
 static void set_channel_answer_time_old(struct ast_channel *chan)
 {
-	if (ast_tvzero(ast_channel_answertime_old(chan))) {
-		struct timeval answertime;
-
-		answertime = ast_tvnow();
-		ast_channel_answertime_old_set(chan, &answertime);
-	}
+	struct timeval answertime;
+	answertime = ast_tvnow();
+	ast_channel_answertime_old_set(chan, &answertime);
 }
 
 int ast_raw_answer_with_stream_topology(struct ast_channel *chan, struct ast_stream_topology *topology)
